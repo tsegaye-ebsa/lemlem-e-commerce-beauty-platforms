@@ -1,0 +1,86 @@
+
+"use client";
+import Image from "next/image";
+import { useState } from "react";
+import Link from "next/link";
+import { Heart,  Search, ShoppingBasket } from "lucide-react";
+import {
+  InputGroup,
+  InputGroupAddon,
+  
+  InputGroupInput,
+  
+} from "@/components/ui/input-group"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+export default function Nav() {
+const [isOpen, setIsOpen] = useState(["G","u","e","s","t"]);
+const [holder, setHolder] = useState("2 free samples for each order* Free shipping from €35.00")
+return (
+
+<header className="shadow-xl " >
+<div className="flex justify-between pl-10 pr-10 p-2 bg-gray-100">
+  
+ <div><h4>{holder}</h4></div>
+
+  <div className="flex gap-2 text-sm items-center">
+  <p>Find Store </p>
+  <span>|</span>
+  <p> Help </p>
+  <span>|</span>
+  <p>Join Us </p>
+  <span>|</span>
+  <p> Log In</p>
+  </div>
+</div>
+
+<div className="flex flex-row items-center justify-between pl-10 pr-10 p-2 ">
+<div>
+  <h1 className="text-5xl p-1 font-bold text-gray-700  font-serif ">lemlem.</h1>
+  </div>
+   <div >
+   <InputGroup className="w-180 py-3  ">
+  <InputGroupInput placeholder="Search..."  className=" p-2"  />
+  <InputGroupAddon className="  p-2 border-2 border-gray-300 bg-black rounded-md  ">
+    <Search className="w-5 h-5 text-white" />
+  </InputGroupAddon>
+</InputGroup>
+   </div>
+ 
+
+<div className="flex flex-row gap-4 items-center">
+
+  <Avatar  >
+  
+    <AvatarImage src="/public/assets/images.png" alt="Avatar" />
+   
+    <AvatarFallback>{isOpen.slice(0,2)}</AvatarFallback>
+  </Avatar>
+  
+  
+  <Heart className="w-10 h-6 text-black-500"/>
+    <ShoppingBasket className="w-10 h-6 text-black-500"/>
+    
+</div>
+</div>
+
+
+ 
+  <div className="flex justify-around  space-x-4 text-black font-sans text-lg font-normal pb-1">
+    <Link href="/promo">Promo</Link>
+    <Link href="/">New</Link>
+    <Link href="/about">Brand</Link>
+    <Link href="/contact">Perfumes</Link>
+    <Link href="/contact">K-beauty</Link>
+    <Link href="/contact">Face</Link>
+    <Link href="/contact">Body</Link>
+    <Link href="/contact">Hair</Link>
+    <Link href="/contact">Makeup</Link>
+    <Link href="/contact">Sunscreen</Link>
+
+  </div>
+ 
+  
+</header>
+
+)
+}
