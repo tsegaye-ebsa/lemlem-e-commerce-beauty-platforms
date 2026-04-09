@@ -7,16 +7,16 @@ export default function Slider() {
 
     return (
        <header>
-        <Carousel className="w-full h-full ">    
-  <CarouselContent >
-    <CarouselItem>
-<Image src="/assets/slider1.jpg" alt="Slider Image 1" width={10000} height={0} className="w-full h-100 object-cover" />
+        <Carousel     >    
+  <CarouselContent className=" h-165 relative  " >
+    <CarouselItem  >
+<Image src="/assets/slider1.jpg" alt="Slider Image 1" width={2000} height={1000} className=" w-full h-full object-cover" />
     </CarouselItem>
     <CarouselItem>
-    <Image src="/assets/slider2.jpg" alt="Slider Image 2" width={100000} height={0} className="w-full h-100 object-cover" />    
+    <Image src="/assets/slider2.jpg" alt="Slider Image 2" width={2000} height={1000} className=" w-full h-full object-cover" />    
     </CarouselItem>
-    <CarouselItem>.
-<Image src="/assets/slider3.jpg" alt="Slider Image 3" width={10000} height={10} className="w-full h-100 object-cover" />
+    <CarouselItem >
+<Image src="/assets/slider3.jpg" alt="Slider Image 3" width={2000} height={1000} className=" w-full h-full object-cover" />
     </CarouselItem>
   </CarouselContent>
   <CarouselPrevious />
