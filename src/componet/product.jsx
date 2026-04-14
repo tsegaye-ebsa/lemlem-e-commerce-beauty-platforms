@@ -1,20 +1,30 @@
 "use client";
 
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { useEffect, useState } from "react";
 
   
 export default function Main() { 
   
     return (
-        <>
+      <>
+      <div>
+       <h1 className="text-3xl mx-10 mb-2  font-medium text-gray-700  font-serif ">BRAND HIGHLIGHTS</h1>
+       </div>
 
 
-       <div className="w-full  flex  flex-wrap gap-0 justify-center items-start pt-15  ">
+
+       <Carousel className="mb-10" >
+        <CarouselContent className="w-full flex " >
+          
          <Product/>
          
-         </div>
+         </CarouselContent>
+         <CarouselPrevious/>
+         <CarouselNext/>
+         </Carousel>
          
-        </>
+         </>
     );
 }
 
@@ -25,7 +35,7 @@ function Product(){
            async function  GetProduct() {
                const product = await fetch("http://makeup-api.herokuapp.com/api/v1/products.json");
                const data = await product.json();
-               const slicedData = data.slice(60, 63);
+               const slicedData = data.slice(60, 72);
                setProducts(slicedData);
                console.log(data);
            };
@@ -47,30 +57,31 @@ function Product(){
            </>
        );
 }
-function Brand({name, price, image ,description}){
+function Brand({name, price, image }){
   
     return(
       
-     <>
-     <div className="w-1/3 h-150 flex flex-col border-grey border-2 justify-between">
+    <CarouselItem className="basis-1/3 p-0 m-0"> 
+      <div className="w-full h-150 flex flex-col border-grey border-2 justify-between">
       <div>
        <img src={image} className="w-full h-100 object-cover p-2" >
       </img>
-      <img src="/assets/channel.jpeg" alt="" className="w-25 h-25 relative top-5 left-2 border-grey border-2" />
+      <img src="/assets/channel.jpeg" alt="" className="w-25 h-25 relative top-5 left-2 border-grey border-2 shadow-2xl" />
       </div>
-      <div className=" border-y-2 h-50 border-white text-white bg-black">
-        <h2 className="py-5 text-3xl text-white">{name}</h2>
+      
+      <div className=" border-y-2 h-100 border-white text-white bg-gray-700">
+        <h2 className="p-5
+         text-3xl text-white">{name}</h2>
         <h3 className="py-5">{price} euro</h3>
       </div>
-      <div>
-       
-      </div>
+      
       <div>
      
       </div>
      </div>
-     
-     </>
+    
+     </CarouselItem>
+   
      
     );
 }

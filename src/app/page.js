@@ -9,7 +9,7 @@ export default function Home() {
      <Slider/>
      <Bradnd/>
      <Product/>
-     <div className="w-full h-200"></div>
+     
     </div>
   );
 }
