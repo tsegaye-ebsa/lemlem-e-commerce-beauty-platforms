@@ -5,7 +5,7 @@ import { Carousel , CarouselItem, CarouselContent, CarouselPrevious, CarouselNex
 export default function BrandCarousel() {
     return (
         <header>
-            <Carousel className=" mt-3 " >
+            <Carousel className=" mt-3 pt-5 " >
   <CarouselContent className=" w-full h-20 relative  " >
    <CarouselItem className="basis-1/5"  >
    <Image src="/assets/channel.jpeg" alt="Slider Image 1" width={2000} height={1000} className=" w-full h-full object-cover" />

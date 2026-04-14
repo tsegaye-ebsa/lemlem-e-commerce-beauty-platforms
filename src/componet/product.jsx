@@ -1,25 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {
-    Card,
-    CardAction,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-  } from "@/components/ui/card"
+
+  
 export default function Main() { 
-    
+  
     return (
         <>
-         <div>
-            <h2 className="text-3xl text-black font-thin py-10 ">BRAND HIGHLIGHTS</h2>
-         </div>
 
-       <div className="w-full  flex  flex-wrap justify-around items-start ">
+
+       <div className="w-full  flex  flex-wrap gap-0 justify-center items-start pt-15  ">
          <Product/>
+         
          </div>
          
         </>
@@ -27,13 +19,14 @@ export default function Main() {
 }
 
 function Product(){
-    const [products, setProducts] = useState([]);
-   
+    
+   const [products,setProducts]= useState([])
     useEffect(()=>{
            async function  GetProduct() {
                const product = await fetch("http://makeup-api.herokuapp.com/api/v1/products.json");
                const data = await product.json();
-               setProducts(data);
+               const slicedData = data.slice(60, 63);
+               setProducts(slicedData);
                console.log(data);
            };
            GetProduct();
@@ -47,34 +40,37 @@ function Product(){
          price={result.price}
         image={result.image_link}
         description={result.description}
+       
+
           />))}
      
            </>
        );
 }
 function Brand({name, price, image ,description}){
+  
     return(
       
-        <Card className="w-64   " >
-        <CardHeader>
-          <CardTitle>
-          
-          <img
-  src={image}
-  alt={name}
-  className="w-full h-48 object-cover rounded-t-lg"
-/>
-            </CardTitle>
-          <CardDescription>{name}</CardDescription>
-          <CardAction>{price}</CardAction>
-        </CardHeader>
-        <CardContent>
-          <p>{description}</p>
-        </CardContent>
-        <CardFooter>
-          <p>Buy Now</p>
-        </CardFooter>
-      </Card>
+     <>
+     <div className="w-1/3 h-150 flex flex-col border-grey border-2 justify-between">
+      <div>
+       <img src={image} className="w-full h-100 object-cover p-2" >
+      </img>
+      <img src="/assets/channel.jpeg" alt="" className="w-25 h-25 relative top-5 left-2 border-grey border-2" />
+      </div>
+      <div className=" border-y-2 h-50 border-white text-white bg-black">
+        <h2 className="py-5 text-3xl text-white">{name}</h2>
+        <h3 className="py-5">{price} euro</h3>
+      </div>
+      <div>
+       
+      </div>
+      <div>
+     
+      </div>
+     </div>
+     
+     </>
      
     );
 }
