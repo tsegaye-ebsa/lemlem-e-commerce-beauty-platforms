@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
   
 export default function Main() { 
-  
+ 
     return (
       <>
       <div>
@@ -14,7 +14,7 @@ export default function Main() {
 
 
 
-       <Carousel className="mb-10" >
+       <Carousel className="mb-0" >
         <CarouselContent className="w-full flex " >
           
          <Product/>

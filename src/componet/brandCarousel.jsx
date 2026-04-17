@@ -8,7 +8,7 @@ export default function BrandCarousel() {
             <Carousel className=" my-12 " >
   <CarouselContent className=" w-full h-10 relative  " >
    <CarouselItem className="basis-1/8"  >
-   <Image src="/assets/channel.jpeg" alt="Slider Image 1" width={2000} height={1000} className=" w-full h-full object-contain" />
+   <Image src="/assets/channel.svg" alt="Slider Image 1" width={2000} height={1000} className=" w-full h-full object-contain" />
        </CarouselItem>
        <CarouselItem className="basis-1/8"  >
    <Image src="/assets/logo-dior-oggi.png" alt="Slider Image 1" width={2000} height={1000} className=" w-full h-full object-contain" />

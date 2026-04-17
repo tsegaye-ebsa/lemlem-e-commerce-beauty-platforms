@@ -1,7 +1,7 @@
 
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Heart,  Search, ShoppingBasket } from "lucide-react";
 import {
@@ -15,6 +15,18 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 export default function Nav() {
 const [isOpen, setIsOpen] = useState(["G","u","e","s","t"]);
 const [holder, setHolder] = useState("2 free samples for each order* Free shipping from €35.00")
+const [search, setSearch] = useState([])
+const [products,setProducts]= useState([])
+    useEffect(()=>{
+           async function  GetProduct() {
+               const product = await fetch("http://makeup-api.herokuapp.com/api/v1/products.json");
+               const data = await product.json();
+               setProducts(data)
+           };
+           GetProduct();
+       },[]);
+
+console.log(search)
 return (
 
 <header className="shadow-xl " >
@@ -39,11 +51,17 @@ return (
   </div>
    <div >
    <InputGroup className="w-180 py-3  ">
-  <InputGroupInput placeholder="Search..."  className=" p-2"  />
+  <InputGroupInput placeholder="Search..."  value={search} onChange={(e)=>(setSearch(e.target.value))} />
   <InputGroupAddon className="  p-2 border-2 border-gray-300 bg-black rounded-md  ">
     <Search className="w-5 h-5 text-white" />
   </InputGroupAddon>
+  
 </InputGroup>
+{search && (<div className="w-180 absolute z-50  bg-white mx-1 ">
+<Searching className="relative" search ={search} product={products}/>
+</div>)}
+
+
    </div>
  
 
@@ -84,3 +102,28 @@ return (
 
 )
 }
+function Searching ({search , product}){
+  const Filters = product.filter((x)=>(x.name.includes(search)))
+  console.log(Filters)
+  return (
+    <>
+    {Filters.map((x) => (<Result key={x.id} name={x.name} image={x.image} />)).slice(1,10)}
+    </>
+  )
+}
+
+
+
+ function Result({name , image }){
+  return (
+   <>
+   <div className="flex ">
+    <img src={image} alt="" className="w-6 h-6 object-contain" />
+    <p className="text-normal">{name}</p>
+
+   </div>
+   
+   </>
+
+  )
+ }
