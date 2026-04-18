@@ -15,8 +15,21 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 export default function Nav() {
 const [isOpen, setIsOpen] = useState(["G","u","e","s","t"]);
 const [holder, setHolder] = useState("2 free samples for each order* Free shipping from €35.00")
-const [search, setSearch] = useState([])
+const [search, setSearch] = useState("")
 const [products,setProducts]= useState([])
+const [nav, setNav]= useState("")
+
+const navs = {
+  promo: ["OMAGGI","DOUGLAS" ,"DEAL"],
+  Brad:["TOP BRAND",
+  "Lemlem COLLECTION",
+  "DIOR",
+  "CHANEL",
+  "SWEED",
+  "MILK_SHAKE",
+  "Visualizza", "tutto", "Top brand"]
+
+};
     useEffect(()=>{
            async function  GetProduct() {
                const product = await fetch("http://makeup-api.herokuapp.com/api/v1/products.json");
@@ -59,8 +72,8 @@ return (
 </InputGroup>
 {search && (<div className="w-180 absolute z-50  bg-white mx-1 ">
 <Searching className="relative" search ={search} product={products}/>
-</div>)}
-
+</div>
+)}
 
    </div>
  
@@ -84,9 +97,11 @@ return (
 
  
   <div className="flex justify-around  space-x-4 text-black font-sans text-lg font-normal pb-1">
-    <Link href="/promo">Promo</Link>
-    <Link href="/">New</Link>
-    <Link href="/about">Brand</Link>
+    
+    <Link href="/promo" onMouseEnter={()=>(setNav(navs.promo))} >Promo</Link> 
+  
+    <Link href="/" >New</Link>
+    <Link href="/about"Brand onMouseEnter={()=>(setNav(navs.Brad))}>Brand </Link>
     <Link href="/contact">Perfumes</Link>
     <Link href="/contact">K-beauty</Link>
     <Link href="/contact">Face</Link>
@@ -96,6 +111,13 @@ return (
     <Link href="/contact">Sunscreen</Link>
 
   </div>
+
+  {
+    nav && (
+      <div className="w-full flex flex-col justify-around  h-50 bg-white absolute z-50 px-10 " onMouseLeave={()=>(setNav(""))}>
+      {nav.map((x,index)=>(<p key={index}>{x}</p>))}
+      </div>)
+  }
  
   
 </header>
@@ -107,7 +129,9 @@ function Searching ({search , product}){
   console.log(Filters)
   return (
     <>
+     
     {Filters.map((x) => (<Result key={x.id} name={x.name} image={x.image} />)).slice(1,10)}
+ 
     </>
   )
 }
@@ -127,3 +151,10 @@ function Searching ({search , product}){
 
   )
  }
+ 
+
+ 
+
+
+
+

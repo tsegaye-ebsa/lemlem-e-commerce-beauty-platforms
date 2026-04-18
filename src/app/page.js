@@ -1,6 +1,7 @@
 import Slider from "@/componet/slider";
 import Bradnd from "@/componet/brandCarousel";
 import Product from "@/componet/product";
+import AllProduct from "@/componet/allproduct"
 import Image from "next/image";
 
 export default function Home() {
@@ -9,7 +10,7 @@ export default function Home() {
      <Slider/>
      <Bradnd/>
      <Product/>
-     
+     <AllProduct/>
     </div>
   );
 }
