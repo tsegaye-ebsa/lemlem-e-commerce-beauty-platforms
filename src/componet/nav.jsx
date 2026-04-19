@@ -21,13 +21,23 @@ const [nav, setNav]= useState("")
 
 const navs = {
   promo: ["OMAGGI","DOUGLAS" ,"DEAL"],
-  Brad:["TOP BRAND",
+  brad:["TOP BRAND",
   "Lemlem COLLECTION",
   "DIOR",
   "CHANEL",
   "SWEED",
   "MILK_SHAKE",
-  "Visualizza", "tutto", "Top brand"]
+  "Visualizza", "tutto", "Top brand"],
+  perfum:[
+    "View all Men",
+    "BOXES",
+    "Caskets for her",
+    "Caskets for Him",
+    "View all Caskets",
+    "NICHE SCENTS",
+    "PERFUME REFILL",
+    "ARABIC PERFUMES"
+  ]
 
 };
     useEffect(()=>{
@@ -100,21 +110,21 @@ return (
     
     <Link href="/promo" onMouseEnter={()=>(setNav(navs.promo))} >Promo</Link> 
   
-    <Link href="/" >New</Link>
-    <Link href="/about"Brand onMouseEnter={()=>(setNav(navs.Brad))}>Brand </Link>
-    <Link href="/contact">Perfumes</Link>
-    <Link href="/contact">K-beauty</Link>
-    <Link href="/contact">Face</Link>
-    <Link href="/contact">Body</Link>
-    <Link href="/contact">Hair</Link>
-    <Link href="/contact">Makeup</Link>
-    <Link href="/contact">Sunscreen</Link>
+    <Link href="/"  onMouseEnter={()=>(setNav(navs.brad))}>New</Link>
+    <Link href="/about" onMouseEnter={()=>(setNav(navs.brad))}>Brand </Link>
+    <Link href="/contact" onMouseEnter={()=>(setNav(navs.brad))}>Perfumes</Link>
+    <Link href="/contact" onMouseEnter={()=>(setNav(navs.brad))}>K-beauty</Link>
+    <Link href="/contact" onMouseEnter={()=>(setNav(navs.brad))}>Face</Link>
+    <Link href="/contact" onMouseEnter={()=>(setNav(navs.brad))}>Body</Link>
+    <Link href="/contact" onMouseEnter={()=>(setNav(navs.bad))}>Hair</Link>
+    <Link href="/contact" onMouseEnter={()=>(setNav(navs.brad))}>Makeup</Link>
+    <Link href="/contact" onMouseEnter={()=>(setNav(navs.brad))}>Sunscreen</Link>
 
   </div>
 
   {
     nav && (
-      <div className="w-full flex flex-col justify-around  h-50 bg-white absolute z-50 px-10 " onMouseLeave={()=>(setNav(""))}>
+      <div className="w-full flex flex-col flex-wrap space-y-4 py-5 h-100 bg-white absolute z-50 px-10 " onMouseLeave={()=>(setNav(""))}>
       {nav.map((x,index)=>(<p key={index}>{x}</p>))}
       </div>)
   }
@@ -126,6 +136,7 @@ return (
 }
 function Searching ({search , product}){
   const Filters = product.filter((x)=>(x.name.includes(search)))
+  
   console.log(Filters)
   return (
     <>
