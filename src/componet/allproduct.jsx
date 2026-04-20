@@ -5,23 +5,23 @@ import { useEffect, useState } from "react";
 
 export default function Main (){
     const [products,setProducts]= useState([])
-   
+    console.log(products)
     useEffect(()=>{
                async function  GetProduct() {
                    const product = await fetch("http://makeup-api.herokuapp.com/api/v1/products.json");
                    const data = await product.json();
                    setProducts(data.sort(() => (0.5 - Math.random()))
-                   .slice(10, 26))
+                   )
                };
                GetProduct();
            },[]);
 
 return (
     
-    <div className="w-full  border-2 border-black grid grid-cols-5 gap-2  ">
+    <div className="w-full  border-2 border-black grid grid-cols-5 gap-2 p-5  ">
     
          {products.map((x)=>(<Apps key={x.id} name={x.name}
-            img={x.Image}/>))}
+            img={x.image_link}/>))}
           
     </div>
     
@@ -31,12 +31,13 @@ return (
 
 
 function Apps ({name, img }){
+  
     return (
     <>
    <div>
     <div>
-    <Heart className="w-8 h-8 px-1 absolute right-0.5 "/>
-    <img src={img} alt="" className="w-80 h-80 object-cover " />
+    <button onClick={()=>([...cart,{name,img}])}><Heart className="w-8 h-8 px-1 absolute righ shadow "/> </button>
+    <img src={img} alt="" className="w-80 h-80 object-cover shadow" />
     </div>
     <p>{name}</p>
     </div>
