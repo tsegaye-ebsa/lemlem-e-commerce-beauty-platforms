@@ -5,7 +5,7 @@ import { createContext, useContext} from "react";
 
 const sender = createContext();
 export default function MainProvider({children}) {
-    const [liked, setliked] = useState ("hellowww")
+    const [liked, setliked] = useState ([])
    const handelLiked  = (provide) => { setliked([...liked, provide])}   
     return(
         <>

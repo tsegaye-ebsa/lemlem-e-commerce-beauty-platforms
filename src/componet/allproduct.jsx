@@ -13,8 +13,8 @@ export default function Main (){
                async function  GetProduct() {
                    const product = await fetch("http://makeup-api.herokuapp.com/api/v1/products.json");
                    const data = await product.json();
-                   setProducts(data.sort(() => (0.5 - Math.random()).slice(0, 12))
-                   )
+                   setProducts(data.slice(50, 60));
+                   
                };
                GetProduct();
            },[]);

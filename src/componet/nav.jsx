@@ -98,7 +98,7 @@ return (
   </Avatar>
   
   
-  <Heart className="w-10 h-6 text-black-500"/>
+  <Link href="/feavorite"> <Heart className="w-10 h-6 text-black-500"/></Link>
     <ShoppingBasket className="w-10 h-6 text-black-500"/>
     
 </div>
