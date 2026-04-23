@@ -70,7 +70,7 @@ return (
 
 <div className="flex flex-row items-center justify-between pl-10 pr-10 p-2 ">
 <div>
-  <h1 className="text-5xl p-1 font-bold text-gray-700  font-serif ">lemlem.</h1>
+  <Link href="/"> <h1 className="text-5xl p-1 font-bold text-gray-700  font-serif ">lemlem.</h1> </Link>
   </div>
    <div >
    <InputGroup className="w-180 py-3  ">
@@ -99,7 +99,7 @@ return (
   
   
   <Link href="/feavorite"> <Heart className="w-10 h-6 text-black-500"/></Link>
-    <ShoppingBasket className="w-10 h-6 text-black-500"/>
+  <Link href="/cart">  <ShoppingBasket className="w-10 h-6 text-black-500"/></Link> 
     
 </div>
 </div>
