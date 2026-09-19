@@ -1,7 +1,8 @@
 "use client";
 
 import { useLiked } from "@/componet/context";
-export default  function Api() {
+
+export default function Api() {
 
      
               return (
