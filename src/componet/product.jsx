@@ -1,87 +1,63 @@
 "use client";
-
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import Link from "next/link";
 import { useEffect, useState } from "react";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { ProductCard } from "@/componet/productGrid";
+import { getAllProducts } from "@/lib/products";
 
-  
-export default function Main() { 
- 
-    return (
-      <>
-      <div>
-       <h1 className="text-3xl mx-10 mb-2  font-medium text-gray-700  font-serif ">BRAND HIGHLIGHTS</h1>
-       </div>
+const arrowClass = "size-10 border border-gray-300 bg-white text-black shadow-md hover:bg-gray-100 disabled:opacity-0";
 
+export default function Main() {
+  const [products, setProducts] = useState([]);
+  const [status, setStatus] = useState("loading");
 
+  useEffect(() => {
+    let cancelled = false;
+    getAllProducts()
+      .then((list) => {
+        if (cancelled) return;
+        setProducts(list.slice(60, 72));
+        setStatus("ready");
+      })
+      .catch(() => !cancelled && setStatus("error"));
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
-       <Carousel className="mb-0" >
-        <CarouselContent className="w-full flex " >
-          
-         <Product/>
-         
-         </CarouselContent>
-         <CarouselPrevious/>
-         <CarouselNext/>
-         </Carousel>
-         
-         </>
-    );
-}
-
-function Product(){
-    
-   const [products,setProducts]= useState([])
-    useEffect(()=>{
-           async function  GetProduct() {
-               const product = await fetch("http://makeup-api.herokuapp.com/api/v1/products.json");
-               const data = await product.json();
-               const slicedData = data.slice(60, 72);
-               setProducts(slicedData);
-               console.log(data);
-           };
-           GetProduct();
-       },[]);
-       return (
-           <>
-           
-          
-         {products.map((result)=>(<Brand key={result.id} 
-         name={result.name}
-         price={result.price}
-        image={result.image_link}
-        description={result.description}
-       
-
-          />))}
-     
-           </>
-       );
-}
-function Brand({name, price, image }){
-  
-    return(
-      
-    <CarouselItem className="basis-1/3 p-0 m-0"> 
-      <div className="w-full h-150 flex flex-col border-grey border-2 justify-between">
-      <div>
-       <img src={image} className="w-full h-100 object-cover p-2" >
-      </img>
-      <img src="/assets/channel.jpeg" alt="" className="w-25 h-25 relative top-5 left-2 border-grey border-2 shadow-2xl" />
+  return (
+    <section aria-label="Brand highlights" className="px-4 sm:px-10 pb-10">
+      <div className="mb-6 flex items-end justify-between">
+        <div>
+          <p className="text-xs uppercase tracking-[0.3em] text-gray-400">Featured</p>
+          <h2 className="mt-1 text-2xl sm:text-3xl font-medium text-gray-700 font-serif">Brand highlights</h2>
+        </div>
+        <Link href="/category/makeup" className="text-sm font-medium underline underline-offset-4 hover:text-gray-500">
+          View all
+        </Link>
       </div>
-      
-      <div className=" border-y-2 h-100 border-white text-white bg-gray-700">
-        <h2 className="p-5
-         text-3xl text-white">{name}</h2>
-        <h3 className="py-5">{price} euro</h3>
-      </div>
-      
-      <div>
-     
-      </div>
-     </div>
-    
-     </CarouselItem>
-   
-     
-    );
+
+      {status === "error" ? (
+        <p className="py-16 text-center text-gray-500">We couldn&apos;t load products right now. Please try again later.</p>
+      ) : (
+        <Carousel opts={{ align: "start", slidesToScroll: 1 }}>
+          <CarouselContent className="-ml-4">
+            {status === "loading"
+              ? Array.from({ length: 4 }).map((_, i) => (
+                  <CarouselItem key={i} className="pl-4 basis-full sm:basis-1/2 lg:basis-1/4">
+                    <div className="h-96 animate-pulse rounded-md bg-gray-100" />
+                  </CarouselItem>
+                ))
+              : products.map((p) => (
+                  <CarouselItem key={p.id} className="pl-4 basis-full sm:basis-1/2 lg:basis-1/4">
+                    <ProductCard id={p.id} name={p.name} img={p.image_link} price={p.price} />
+                  </CarouselItem>
+                ))}
+          </CarouselContent>
+          <CarouselPrevious className={`left-1 sm:-left-5 ${arrowClass}`} />
+          <CarouselNext className={`right-1 sm:-right-5 ${arrowClass}`} />
+        </Carousel>
+      )}
+    </section>
+  );
 }

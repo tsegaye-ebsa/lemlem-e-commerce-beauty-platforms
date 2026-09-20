@@ -7,7 +7,7 @@ export default function Api() {
      
               return (
                 <>
-                  <div className="w-full my-5 border-2 border-black grid grid-cols-5 gap-2 p-5  ">
+                  <div className="w-full my-5 border-2 border-black grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 p-3 sm:p-5">
                 <Cart/>
                 </div>
                 </>
@@ -19,7 +19,7 @@ const Cart = () => {
 
         return(
                 <>
-                {liked.map((x,index)=>(<Apps key={index} name={x.name} img={x.img}/>))}
+                {liked.map((x,index)=>(<Apps key={x.id ?? index} name={x.name} img={x.img}/>))}
                 </>
         )
         
@@ -31,7 +31,7 @@ function Apps ({name, img }){
           
          <div>
           <div>
-          <img src={img} alt="" className="w-80 h-80 object-cover shadow" />
+          <img src={img} alt={name} className="w-full aspect-square object-cover shadow" />
           </div>
           <p>{name}</p>
           </div>
