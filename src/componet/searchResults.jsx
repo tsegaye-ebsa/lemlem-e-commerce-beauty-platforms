@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
-import { ProductCard } from "@/componet/productGrid";
+import ProductCard, { productGridClass } from "@/componet/productCard";
 import { getAllProducts, searchProducts } from "@/lib/products";
 
 export default function SearchResults({ query }) {
@@ -30,12 +30,12 @@ export default function SearchResults({ query }) {
 
   return (
     <>
-      <p className="px-4 sm:px-10 pt-8 text-sm text-gray-500">
+      <p className="mx-auto max-w-7xl px-4 sm:px-10 pt-8 text-sm text-gray-500">
         {results.length} result{results.length === 1 ? "" : "s"}
       </p>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 px-4 sm:px-10 pb-10 pt-4">
+      <div className={`${productGridClass} mx-auto max-w-7xl px-4 sm:px-10 pb-10 pt-6`}>
         {results.slice(0, 60).map((p) => (
-          <ProductCard key={p.id} id={p.id} name={p.name} img={p.image_link} price={p.price} />
+          <ProductCard key={p.id} id={p.id} name={p.name} img={p.image_link} price={p.price} brand={p.brand} type={p.product_type} rating={p.rating} />
         ))}
       </div>
     </>

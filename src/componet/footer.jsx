@@ -3,6 +3,14 @@ import { Loader, LucideBox, ShipWheel, Tag, TruckIcon, Wallet } from "lucide-rea
 
 
 
+import Link from "next/link";
+
+// Edit these to match the store. Add { label, href } entries to SOCIALS to show social links.
+const PAYMENT_METHODS = ["Visa", "Mastercard", "PayPal"];
+const SHIPPING_INFO = ["Delivery within 3–6 days", "Free shipping from 300 birr"];
+const SAFE_SHOPPING = ["Secure payments", "Your data stays private"];
+const SOCIALS = [];
+
 export default function Slider() {
   return (
     <header>
@@ -39,15 +47,43 @@ export default function Slider() {
       <div className="grid grid-cols-2 gap-6 px-6 pb-10 pt-6 md:flex md:justify-around md:pb-15 md:pt-10 md:px-0"> 
       <div>
         <h5 className="text-sm font-bold text-gray-700">Payment methods</h5>
+        <ul className="mt-3 flex flex-wrap gap-2">
+          {PAYMENT_METHODS.map((m) => (
+            <li key={m} className="rounded-md border border-gray-300 bg-white px-2 py-1 text-xs text-gray-600">{m}</li>
+          ))}
+        </ul>
       </div>
       <div>
         <h5 className="text-sm font-bold text-gray-700">Shipping</h5>
+        <div className="mt-3 space-y-1">
+          {SHIPPING_INFO.map((line) => (
+            <p key={line} className="font-thin">{line}</p>
+          ))}
+        </div>
       </div>
       <div>
         <h5 className="text-sm font-bold text-gray-700">Safe Shopping</h5>
+        <div className="mt-3 space-y-1">
+          {SAFE_SHOPPING.map((line) => (
+            <p key={line} className="font-thin">{line}</p>
+          ))}
+        </div>
       </div>
       <div>
         <h5 className="text-sm font-bold text-gray-700">Follow lemlem.</h5>
+        <div className="mt-3 space-y-1">
+          {SOCIALS.length > 0 ? (
+            SOCIALS.map(({ label, href }) => (
+              <p key={label} className="font-thin">
+                <a href={href} target="_blank" rel="noopener noreferrer" className="hover:underline">{label}</a>
+              </p>
+            ))
+          ) : (
+            <p className="font-thin">
+              Questions? <Link href="/contact" className="underline underline-offset-4">Contact us</Link>
+            </p>
+          )}
+        </div>
       </div>
       </div>
       </div>

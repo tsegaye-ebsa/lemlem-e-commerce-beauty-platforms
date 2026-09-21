@@ -1,7 +1,6 @@
 "use client";
-import { Heart } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useLiked } from "@/componet/context";
+import ProductCard, { ProductSkeleton, productGridClass } from "@/componet/productCard";
 
 const API = "https://makeup-api.herokuapp.com/api/v1/products.json";
 
@@ -42,9 +41,9 @@ export default function ProductGrid({ types, maxPrice, limit = 40, emptyMessage 
 
   if (!noTypes && status === "loading") {
     return (
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 p-4 sm:p-10" aria-busy="true">
+      <div className={`${productGridClass} mx-auto max-w-7xl px-4 py-10 sm:px-10`} aria-busy="true">
         {Array.from({ length: 8 }).map((_, i) => (
-          <div key={i} className="h-96 bg-gray-100 animate-pulse rounded-md" />
+          <ProductSkeleton key={i} />
         ))}
       </div>
     );
@@ -60,38 +59,24 @@ export default function ProductGrid({ types, maxPrice, limit = 40, emptyMessage 
     );
   }
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 p-4 sm:p-10">
-      {products.map((p) => (
-        <ProductCard key={p.id} id={p.id} name={p.name} img={p.image_link} price={p.price} />
-      ))}
-    </div>
-  );
-}
-
-export function ProductCard({ id, name, img, price }) {
-  const { liked, handelLiked, Handelcart } = useLiked();
-  const isLiked = liked.some((x) => x.id === id);
-  return (
-    <div className="flex flex-col justify-between border border-gray-300 p-2 relative rounded-md">
-      <div>
-        <button
-          onClick={() => handelLiked({ name, img, id })}
-          aria-label={isLiked ? "Remove from favorites" : "Add to favorites"}
-          className="absolute right-3 top-3 z-10 bg-white/80 rounded-full p-1"
-        >
-          <Heart className={`w-6 h-6 ${isLiked ? "fill-red-500 text-red-500" : ""}`} />
-        </button>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={img} alt={name} className="w-full h-64 object-cover" />
+    <div className="mx-auto max-w-7xl px-4 py-10 sm:px-10">
+      <p className="mb-6 text-sm text-gray-500">
+        {products.length} product{products.length === 1 ? "" : "s"}
+      </p>
+      <div className={productGridClass}>
+        {products.map((p) => (
+          <ProductCard
+            key={p.id}
+            id={p.id}
+            name={p.name}
+            img={p.image_link}
+            price={p.price}
+            brand={p.brand}
+            type={p.product_type}
+            rating={p.rating}
+          />
+        ))}
       </div>
-      <p className="mt-2 text-sm line-clamp-2">{name}</p>
-      <p className="my-1 font-semibold">{Number(price) > 0 ? `${price} euro` : "Price on request"}</p>
-      <button
-        onClick={() => Handelcart({ name, img, id, price })}
-        className="flex justify-center items-center border-gray-300 border-2 w-full h-10 rounded-md shadow hover:bg-gray-100"
-      >
-        Buy
-      </button>
     </div>
   );
 }

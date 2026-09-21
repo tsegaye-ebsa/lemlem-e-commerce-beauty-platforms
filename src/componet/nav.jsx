@@ -1,31 +1,56 @@
 
 "use client";
 import MegaMenu from "@/componet/megaMenu";
+import AccountMenu from "@/componet/accountMenu";
 import SearchBar from "@/componet/searchBar";
-import { useState } from "react";
+import TopBar from "@/componet/topBar";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Heart, ShoppingBasket } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useLiked } from "@/componet/context";
 export default function Nav() {
-const [isOpen, setIsOpen] = useState(["G","u","e","s","t"]);
-const [holder, setHolder] = useState("2 free samples for each order* Free shipping from €35.00")
+const { cart, liked } = useLiked();
+const cartCount = cart.reduce((sum, item) => sum + item.qty, 0);
+const [scrolling, setScrolling] = useState(false)
+const topBarRef = useRef(null)
+const [topBarHeight, setTopBarHeight] = useState(0)
+
+// The header sticks just above the screen edge by the height of the offer bar, so that
+// bar scrolls away while the logo, search and menu stay pinned. It is measured because
+// its height differs between phone and desktop.
+useEffect(() => {
+  const el = topBarRef.current;
+  if (!el) return;
+  const observer = new ResizeObserver(() => setTopBarHeight(el.offsetHeight));
+  observer.observe(el);
+  return () => observer.disconnect();
+}, []);
+
+// The nav fades while the page is moving and returns to normal shortly after it stops.
+useEffect(() => {
+  let timer;
+  const onScroll = () => {
+    if (window.scrollY > 0) setScrolling(true);
+    clearTimeout(timer);
+    timer = setTimeout(() => setScrolling(false), 250);
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  return () => {
+    window.removeEventListener("scroll", onScroll);
+    clearTimeout(timer);
+  };
+}, []);
 
 return (
 
-<header className="shadow-xl relative z-40">
-<div className="flex justify-center md:justify-between px-4 md:px-10 p-2 bg-gray-100 text-xs sm:text-sm text-center">
-  
- <div><h4>{holder}</h4></div>
-
-  <div className="hidden md:flex gap-2 text-sm items-center">
-  <p>Find Store </p>
-  <span>|</span>
-  <p> Help </p>
-  <span>|</span>
-  <p>Join Us </p>
-  <span>|</span>
-  <p> Log In</p>
-  </div>
+<header
+  style={{ top: -topBarHeight }}
+  className={`sticky z-40 bg-white shadow-xl transition-opacity duration-300 hover:opacity-100 focus-within:opacity-100 ${
+    scrolling ? "opacity-50" : "opacity-100"
+  }`}
+>
+<div ref={topBarRef}>
+  <TopBar />
 </div>
 
 <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 md:px-10 p-2">
@@ -38,16 +63,25 @@ return (
 
 <div className="flex flex-row gap-2 sm:gap-4 items-center">
 
-  <Avatar  >
-  
-    <AvatarImage src="/assets/images.png" alt="Avatar" />
-   
-    <AvatarFallback>{isOpen.slice(0,2)}</AvatarFallback>
-  </Avatar>
+  <AccountMenu />
   
   
-  <Link href="/feavorite"> <Heart className="w-10 h-6 text-black-500"/></Link>
-  <Link href="/cart">  <ShoppingBasket className="w-10 h-6 text-black-500"/></Link> 
+  <Link href="/feavorite" aria-label={`Favorites, ${liked.length} item${liked.length === 1 ? "" : "s"}`} className="relative">
+    <Heart className="w-10 h-6 text-black-500"/>
+    {liked.length > 0 && (
+      <span className="absolute -right-1 -top-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-rose-500 px-1 text-[11px] font-medium text-white">
+        {liked.length}
+      </span>
+    )}
+  </Link>
+  <Link href="/cart" aria-label={`Cart, ${cartCount} item${cartCount === 1 ? "" : "s"}`} className="relative">
+    <ShoppingBasket className="w-10 h-6 text-black-500"/>
+    {cartCount > 0 && (
+      <span className="absolute -right-1 -top-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-black px-1 text-[11px] font-medium text-white">
+        {cartCount}
+      </span>
+    )}
+  </Link> 
     
 </div>
 </div>
