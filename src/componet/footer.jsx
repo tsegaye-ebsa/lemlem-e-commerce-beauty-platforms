@@ -1,102 +1,117 @@
-"use client";
-import { Loader, LucideBox, ShipWheel, Tag, TruckIcon, Wallet } from "lucide-react";
-
-
-
 import Link from "next/link";
+import { Check } from "lucide-react";
+import TrustBar from "@/componet/trustBar";
 
 // Edit these to match the store. Add { label, href } entries to SOCIALS to show social links.
 const PAYMENT_METHODS = ["Visa", "Mastercard", "PayPal"];
-const SHIPPING_INFO = ["Delivery within 3–6 days", "Free shipping from 300 birr"];
+const SHIPPING_INFO = ["Delivery within 3–6 days", "Free shipping from €35.00"];
 const SAFE_SHOPPING = ["Secure payments", "Your data stays private"];
 const SOCIALS = [];
+const LEGAL = ["Privacy Contacts", "Right of withdrawal", "Conditions of sale", "Compliance & Whistleblowing", "Cookie settings"];
 
-export default function Slider() {
+// Column heading with a short accent line underneath.
+function Heading({ children }) {
   return (
-    <header>
-    <div className="w-full  bg-gray-100">
-    <div className="grid grid-cols-2 gap-6 p-6 md:flex md:justify-around md:p-10">
-   
-      <div>
-      <TruckIcon className="w-5 h-5 text-gray-500" />
-      <h4 className="font-normal py-1">Shipping</h4>
-      <p className="font-thin">Delivery Within 3/6 days</p>
-      </div>
+    <div className="mb-5">
+      <h2 className="text-sm font-bold text-gray-700">{children}</h2>
+      <span aria-hidden="true" className="mt-2 block h-0.5 w-6 rounded-full bg-black" />
+    </div>
+  );
+}
 
-      <div>
-      <LucideBox className="w-5 h-5 text-gray-500" />
-      <h5 className=" py-1">Free Shipping</h5>
-      <p className="font-thin">from 300 birr</p>
-      </div>
-    
-      
-      <div>
-      <Tag className="w-5 h-5 text-gray-500" />
-      <h5 className="font-normal py-1">2 free samples</h5>
-      <p className="font-thin">at your choice</p>
-      </div>
+const textLink = "underline underline-offset-4 transition-colors hover:text-black";
 
+export default function Footer() {
+  return (
+    <footer className="mt-auto bg-gray-100">
       <div>
-      <Wallet className="w-5 h-5 text-gray-500" />
-      <h5 className="font-normal  py-1">Free Shipping</h5>
-      <p className="font-thin">from 300 birr</p>
-      </div>
-  
-      </div>
-      <hr className=" my-4 border-gray-300" />
-      <div className="grid grid-cols-2 gap-6 px-6 pb-10 pt-6 md:flex md:justify-around md:pb-15 md:pt-10 md:px-0"> 
-      <div>
-        <h5 className="text-sm font-bold text-gray-700">Payment methods</h5>
-        <ul className="mt-3 flex flex-wrap gap-2">
-          {PAYMENT_METHODS.map((m) => (
-            <li key={m} className="rounded-md border border-gray-300 bg-white px-2 py-1 text-xs text-gray-600">{m}</li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <h5 className="text-sm font-bold text-gray-700">Shipping</h5>
-        <div className="mt-3 space-y-1">
-          {SHIPPING_INFO.map((line) => (
-            <p key={line} className="font-thin">{line}</p>
-          ))}
+        <div className="mx-auto max-w-7xl px-4 sm:px-10">
+          {/* Store promises: the top row of the footer, as in the original layout */}
+          <div className="py-8">
+            <TrustBar />
+          </div>
+          <hr className="border-gray-300" />
+        </div>
+
+        {/* Four columns, as in the original layout */}
+        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-6 gap-y-10 px-4 py-12 sm:px-10 md:grid-cols-4 md:gap-x-10 md:py-14">
+          <div>
+            <Heading>Payment methods</Heading>
+            <ul className="flex flex-wrap gap-2">
+              {PAYMENT_METHODS.map((m) => (
+                <li key={m} className="rounded-md border border-gray-300 bg-white px-3 py-1 text-xs font-medium text-gray-600 shadow-sm">
+                  {m}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <Heading>Shipping</Heading>
+            <ul className="space-y-2 text-sm text-gray-500">
+              {SHIPPING_INFO.map((line) => (
+                <li key={line}>{line}</li>
+              ))}
+              <li>
+                <Link href="/contact" className={textLink}>
+                  Delivery questions?
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <Heading>Safe Shopping</Heading>
+            <ul className="space-y-2">
+              {SAFE_SHOPPING.map((line) => (
+                <li key={line} className="flex items-center gap-2.5 text-sm text-gray-500">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white shadow-sm">
+                    <Check className="h-3 w-3 text-gray-600" aria-hidden="true" />
+                  </span>
+                  {line}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <Heading>Follow lemlem.</Heading>
+            {SOCIALS.length > 0 ? (
+              <ul className="space-y-2 text-sm text-gray-500">
+                {SOCIALS.map(({ label, href }) => (
+                  <li key={label}>
+                    <a href={href} target="_blank" rel="noopener noreferrer" className={textLink}>
+                      {label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <>
+                <p className="text-sm leading-relaxed text-gray-500">Questions or ideas? We&apos;d love to hear from you.</p>
+                <Link
+                  href="/contact"
+                  className="mt-4 inline-block rounded-full bg-black px-6 py-2.5 text-sm font-medium text-white transition hover:bg-gray-700"
+                >
+                  Contact us
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
+
+        {/* Bottom bar: legal names on the left, copyright on the right */}
+        <div className="border-t border-gray-300">
+          <div className="mx-auto flex max-w-7xl flex-col items-center gap-3 px-4 py-6 text-center text-sm text-gray-500 sm:px-10 md:flex-row md:justify-between md:text-left">
+            <ul className="flex flex-wrap justify-center gap-x-6 gap-y-2 md:justify-start">
+              {LEGAL.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+            <p>©{new Date().getFullYear()} lemlem Italia S.p.A.</p>
+          </div>
         </div>
       </div>
-      <div>
-        <h5 className="text-sm font-bold text-gray-700">Safe Shopping</h5>
-        <div className="mt-3 space-y-1">
-          {SAFE_SHOPPING.map((line) => (
-            <p key={line} className="font-thin">{line}</p>
-          ))}
-        </div>
-      </div>
-      <div>
-        <h5 className="text-sm font-bold text-gray-700">Follow lemlem.</h5>
-        <div className="mt-3 space-y-1">
-          {SOCIALS.length > 0 ? (
-            SOCIALS.map(({ label, href }) => (
-              <p key={label} className="font-thin">
-                <a href={href} target="_blank" rel="noopener noreferrer" className="hover:underline">{label}</a>
-              </p>
-            ))
-          ) : (
-            <p className="font-thin">
-              Questions? <Link href="/contact" className="underline underline-offset-4">Contact us</Link>
-            </p>
-          )}
-        </div>
-      </div>
-      </div>
-      </div>
-      <div className="w-full bg-gray-100 flex flex-col gap-4 items-center text-center md:flex-row md:justify-around mt-4 p-5"> 
-        <div className="flex flex-wrap justify-center gap-x-5 gap-y-2">
-      <p>Privacy Contacts </p>
-      <p>Right of withdrawal</p>
-      <p>Conditions of sale</p>
-      <p>Compliance & Whistleblowing</p>
-        <p>Cookie settings</p>
-      </div>
-      <p>©2026 lemlem Italia S.p.A. </p>
-      </div>
-      </header>
-  )
+    </footer>
+  );
 }
